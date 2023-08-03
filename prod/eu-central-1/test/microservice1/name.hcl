@@ -1,3 +1,0 @@
-locals {
-  name = "microservice1"
-}

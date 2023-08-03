@@ -15,24 +15,22 @@ locals {
 
   environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
 
-  name_vars = read_terragrunt_config(find_in_parent_folders("name.hcl"))
+  path_to_folder = get_terragrunt_dir()
+
+  name = regex("/([^/]+)$", local.path_to_folder)[0] #taking last value of the path_to_dir (exmp: microservice1)
 
   org          = local.global_vars.locals.org
   account_name = local.account_vars.locals.account_name
   account_id   = local.account_vars.locals.account_id
   aws_region   = local.region_vars.locals.aws_region
   env          = local.environment_vars.locals.env
-  name         = local.name_vars.locals.name
-
-  #name_of_repository = "${local.org}-${local.env}-${local.aws_region}-${local.name}"
-  
 }
 
 inputs = {
 
 create = true
 
-repository_name = local.name_of_repository
+repository_name = local.name
 
 create_lifecycle_policy = true
 
