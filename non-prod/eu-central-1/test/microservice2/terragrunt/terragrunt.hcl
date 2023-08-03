@@ -24,15 +24,7 @@ locals {
   env          = local.environment_vars.locals.env
   name         = local.name_vars.locals.name
 
-  tag_name = "abr-test"
-
   name_of_repository = "${local.org}-${local.env}-${local.aws_region}-${local.name}"
-
-  tags = {
-    ENV       = local.tag_name
-    NAME      = local.name
-    Repository = "https://github.com/adilzhanbek/ecr-test"
-}
 }
 
 inputs = {
