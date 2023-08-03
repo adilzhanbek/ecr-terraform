@@ -58,7 +58,7 @@ remote_state {
 # `terragrunt.hcl` config via the include block.
 # ---------------------------------------------------------------------------------------------------------------------
 
-iam_role = "arn:aws:iam::${local.account_id}:role/terraform" #????
+#iam_role = "arn:aws:iam::${local.account_id}:role/terraform" #????
 
 # Configure root level variables that all resources can inherit. This is especially helpful with multi-account configs
 # where terraform_remote_state data sources are placed directly into the modules.

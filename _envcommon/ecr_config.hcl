@@ -10,20 +10,19 @@
 # ---------------------------------------------------------------------------------------------------------------------
 locals {
   # Automatically load environment-level variables
-  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+ # ######environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
 
   # Extract out common variables for reuse
-  env = local.environment_vars.locals.environment
+  ########env = local.environment_vars.locals.environment
 
   # Expose the base source URL so different versions of the module can be deployed in different environments.
   
   #git@github.com:terraform-aws-modules/terraform-aws-ecr.git//wrappers
   
-  base_source_url = "tfr:///terraform-aws-modules/ecr/aws//wrappers"
+ # base_source_url = "git::git@github.com:terraform-aws-modules/terraform-aws-ecr.git//wrappers?ref=master"
   
   
  # base_source_url = "git::git@github.com:gruntwork-io/terragrunt-infrastructure-modules-example.git//asg-elb-service"
-}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # MODULE PARAMETERS
@@ -39,26 +38,45 @@ locals {
 
   # server_port = 8080
   # elb_port    = 80
+  name_private   = "abr-p33rivate-${replace(basename(path.cwd), "_", "-")}"
+  name_public = "abr-pu33blic-${replace(basename(path.cwd), "_", "-")}"
+  tag_name = "test-tag"
+  tags = {
+    Name       = local.tag_name
+    Example    = local.tag_name
+    Repository = "https://github.com/adilzhanbek/ecr-test"
+  }
+  }
+
+
+
 
 inputs = {
-  defaults = { # Default values
-    create = true
-    tags = {
-      Terraform   = "true"
-      #Environment = "dev"
-    }
-  }
+repository_name = local.name_private
 
-  items = {
-    my-item = {
-      # omitted... can be any argument supported by the module
-    }
-    my-second-item = {
-      # omitted... can be any argument supported by the module
-    }
-    # omitted...
-  }
+create_lifecycle_policy = true
+
+ repository_lifecycle_policy = jsonencode({
+    rules = [
+      {
+        rulePriority = 1,
+        description  = "Keep last 30 images",
+        selection = {
+          tagStatus     = "tagged",
+          tagPrefixList = ["v"],
+          countType     = "imageCountMoreThan",
+          countNumber   = 30
+        },
+        action = {
+          type = "expire"
+        }
+      }
+    ]
+  })
+ 
 }
+
+
 
 
 
