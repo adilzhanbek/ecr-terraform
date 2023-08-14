@@ -16,7 +16,7 @@ while IFS= read -r current_name; do
 
     # Проверка существования папки
     if [ -d "$target_folder" ]; then
-        echo "Folder for servicez $target_folder already exists, skip..."
+        echo "Folder for services $target_folder already exists, skip..."
         continue
     else
         echo "Creating new folder: $target_folder"
