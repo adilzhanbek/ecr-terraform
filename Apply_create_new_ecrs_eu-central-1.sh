@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Путь к файлу с именами
-NAMES_FILE="to_add.txt"
+NAMES_FILE="to_add.list"
 
 # Путь к директории, где находятся папки
 BASE_DIR="./infra/eu-central-1/infra/ecr"
