@@ -31,7 +31,7 @@ while IFS= read -r current_name; do
 
     # Запуск terragrunt plan
     echo "Terragrunt apply for $current_name"
-    terragrunt run apply --terragrunt-non-interactive
+    terragrunt apply --terragrunt-auto-approve
 
     # Возврат в исходную папку
     cd - || exit
