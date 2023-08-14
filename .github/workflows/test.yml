@@ -31,5 +31,8 @@ jobs:
         run: ls -la
 
       - name: Run script file
-        run: ./create_new_ecrs_eu-central-1.sh
+        run: |
+          chmod -R 777 ./create_new_ecrs_eu-central-1.sh 
+          ./create_new_ecrs_eu-central-1.sh
+
         shell: sh
