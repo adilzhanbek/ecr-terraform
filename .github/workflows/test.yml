@@ -27,6 +27,5 @@ jobs:
       - name: Interact with Terragrunt
         run: terragrunt --version
 
-      - name: Terragrunt plan-all
-        run: create_new_ecrs_eu-central-1.sh
-        shell: sh
+      - name: LS
+        run: ls
