@@ -1,40 +1,23 @@
-#!/bin/bash
+#!/bin/sh
 
 # Путь к файлу с именами
-names_file="names.txt"
+NAMES_FILE="to_add.txt"
 
-# Базовый путь, где будут создаваться папки
-base_path="./infra/eu-central-1/infra/ecr"
+# Путь к директории, где находятся папки
+BASE_DIR="./infra/eu-central-1/infra/ecr"
 
-# Переменная для хранения имени
-current_name=""
+# Чтение списка имен из файла
+names=$(cat "$NAMES_FILE")
 
-# Чтение и обработка имен из файла
-while IFS= read -r current_name; do
-    # Путь к целевой папке для имени
-    target_folder="$base_path/$current_name"
-
-    # Проверка существования папки
-    if [ -d "$target_folder" ]; then
-        echo "Folder for services $target_folder already exists, skip..."
-        continue
+# Разделение имен по строкам и выполнение действий
+for name in $names; do
+    # Проверяем, существует ли директория для имени
+    if [ -d "$BASE_DIR/$name" ]; then
+        echo "Terragrunt apply for $name..."
+        # Переход в директорию и выполнение terragrunt apply
+        (cd "$BASE_DIR/$name" && terragrunt apply -auto-approve)
     else
-        echo "Creating new folder: $target_folder"
-        mkdir -p "$target_folder"
+        echo "Folder $name not found"
     fi
+done
 
-    # Копирование файла terragrunt.hcl
-    cp "./infra/eu-central-1/infra/ecr/microservice1/terragrunt.hcl" "$target_folder"
-
-    # Переход в целевую папку
-    cd "$target_folder" || exit
-
-    # Запуск terragrunt plan
-    echo "Terragrunt apply for $current_name"
-    terragrunt apply -auto-approve
-
-    # Возврат в исходную папку
-    cd - || exit
-
-    echo "Done for: $current_name"
-done < "$names_file"
