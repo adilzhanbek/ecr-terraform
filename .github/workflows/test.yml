@@ -28,7 +28,7 @@ jobs:
         run: terragrunt --version
 
       - name: LS
-        run: ls
+        run: ls -la
 
       - name: Run script file
         run: ./create_new_ecrs_eu-central-1.sh
