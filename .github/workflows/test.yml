@@ -1,0 +1,32 @@
+name: on PR opened terragrunt plan
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+
+  AWS-ECR-CI:
+    name: AWS-ECR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: eu-central-1 #note: not fully automated
+
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: 0.48.6
+      - name: Interact with Terragrunt
+        run: terragrunt --version
+
+      - name: Terragrunt plan-all
+        run: create_new_ecrs_eu-central-1.sh
+        shell: sh
