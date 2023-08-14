@@ -28,7 +28,6 @@ locals {
 
 inputs = {
 
-create = true
 
 repository_name = local.name
 
