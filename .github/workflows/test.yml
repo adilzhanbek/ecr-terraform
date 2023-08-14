@@ -29,3 +29,7 @@ jobs:
 
       - name: LS
         run: ls
+
+      - name: Run script file
+        run: ./create_new_ecrs_eu-central-1.sh
+        shell: sh
