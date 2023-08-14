@@ -33,6 +33,6 @@ jobs:
       - name: Run script file
         run: |
           chmod -R 777 ./create_new_ecrs_eu-central-1.sh 
-          ./create_new_ecrs_eu-central-1.sh
+          ./Apply_create_new_ecrs_eu-central-1.sh
 
         shell: sh
